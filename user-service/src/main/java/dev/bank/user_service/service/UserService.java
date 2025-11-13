@@ -30,6 +30,7 @@ public class UserService {
         String hashedPassword = encoder.encode(dto.getPassword());
 
         User user = new User();
+
         user.setUsername(dto.getUsername());
         user.setPassword(hashedPassword);
         user.setEmail(dto.getEmail());
