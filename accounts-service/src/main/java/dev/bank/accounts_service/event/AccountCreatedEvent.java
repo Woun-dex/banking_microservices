@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountCreatedEvent {
-    Long accountId;
-    Long userId;
+    UUID accountId;
+    UUID userId;
     String currency ;
 }

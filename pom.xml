@@ -11,7 +11,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>core</module>
 		<module>user-service</module>
 		<module>api-gateway</module>
 		<module>loan-service</module>
@@ -37,9 +36,12 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
 	<properties>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		<java.version>25</java.version>
 	</properties>
+
+
 
 </project>

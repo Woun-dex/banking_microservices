@@ -7,11 +7,13 @@ import dev.bank.user_service.model.User;
 import dev.bank.user_service.repository.UserRepository;
 import jdk.jfr.Enabled;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -48,8 +50,14 @@ public class UserService {
     }
 
     public UserResponseDto getUserById(UUID id) {
-        User user = repo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        log.info("Getting user by ID: {}", id);
+        User user = repo.findById(id)
+            .orElseThrow(() -> {
+                log.error("User not found with ID: {}", id);
+                return new RuntimeException("User not found with ID: " + id);
+            });
 
+        log.info("Found user: {} ({})", user.getUsername(), user.getId());
         return new UserResponseDto(
                 user.getId(),
                 user.getUsername(),

@@ -1,0 +1,19 @@
+package dev.bank.notification_service.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class AccountResponse {
+    private UUID accountId;
+    private UUID userId;
+    private BigDecimal balance;
+    private String currency;
+    private Integer version;
+}
