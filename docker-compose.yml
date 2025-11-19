@@ -22,7 +22,7 @@ services:
       KAFKA_CLUSTER_ID: "TaVJLPKiRjqN2o7LXzMq2g"
 
     ports:
-      - "9092:29092"   # Windows host uses 9092 → mapped to EXTERNAL listener
+      - "9092:29092"
     volumes:
       - kafka1-data:/var/lib/kafka/data
 

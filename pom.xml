@@ -13,7 +13,6 @@
 	<modules>
 		<module>user-service</module>
 		<module>api-gateway</module>
-		<module>loan-service</module>
 		<module>notification-service</module>
 		<module>transaction-service</module>
 		<module>accounts-service</module>
