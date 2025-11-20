@@ -3,6 +3,7 @@ package dev.bank.user_service.service;
 
 import dev.bank.user_service.dto.CreateUserDto;
 import dev.bank.user_service.dto.UserResponseDto;
+import dev.bank.user_service.enums.UserRole;
 import dev.bank.user_service.model.User;
 import dev.bank.user_service.repository.UserRepository;
 import jdk.jfr.Enabled;
@@ -36,7 +37,7 @@ public class UserService {
         user.setUsername(dto.getUsername());
         user.setPassword(hashedPassword);
         user.setEmail(dto.getEmail());
-        user.setRole(dto.getRole());
+        user.setRole(dto.getRole() != null ? dto.getRole() : UserRole.CUSTOMER);
 
         User saved = repo.save(user);
 

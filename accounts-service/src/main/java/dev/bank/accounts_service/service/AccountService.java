@@ -34,9 +34,10 @@ public class AccountService {
 
         Account account = new Account();
 
+
         account.setUserId(request.getUserId());
         account.setCurrency(request.getCurrency());
-        account.setBalance(BigDecimal.valueOf(1000));
+        account.setBalance(BigDecimal.valueOf(request.getInitialBalance()));
         account.setVersion(0);
 
         Account saved = accountRepository.save(account);

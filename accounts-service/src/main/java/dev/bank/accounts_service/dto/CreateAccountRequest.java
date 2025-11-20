@@ -14,5 +14,6 @@ import java.util.UUID;
 public class CreateAccountRequest {
 
     private UUID userId;
+    private double initialBalance;
     private String currency;
 }
