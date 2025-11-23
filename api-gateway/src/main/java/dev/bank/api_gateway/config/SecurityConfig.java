@@ -21,7 +21,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.disable())
+                .cors(cors -> {}) // Use default CORS configuration from CorsConfig bean
                 .authorizeHttpRequests(authorize -> authorize
                                 .requestMatchers("/api/users/auth/token", "/api/users/user", "/user/token", "/user/user").permitAll()
                                 .anyRequest().authenticated()
