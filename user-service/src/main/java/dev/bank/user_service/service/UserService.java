@@ -1,7 +1,9 @@
 package dev.bank.user_service.service;
 
 
+import dev.bank.user_service.JwtService;
 import dev.bank.user_service.dto.CreateUserDto;
+import dev.bank.user_service.dto.LoginResponse;
 import dev.bank.user_service.dto.UserResponseDto;
 import dev.bank.user_service.enums.UserRole;
 import dev.bank.user_service.model.User;
@@ -12,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -20,6 +23,7 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository repo;
+    private final JwtService jwtService;
 
     Argon2PasswordEncoder encoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
 
@@ -65,5 +69,17 @@ public class UserService {
                 user.getEmail(),
                 user.getRole()
         );
+    }
+
+    public Map<String,String> loginRequest(String username, String password) {
+        User user = repo.findUserByUsername(username);
+        if (user == null) {
+            throw new RuntimeException("User not found with username: " + username);
+        }
+        if (!encoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
+        String token = jwtService.generateToken(username , String.valueOf(user.getRole()));
+        return Map.of("userId", user.getId().toString(), "token", token);
     }
 }

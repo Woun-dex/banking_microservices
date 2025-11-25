@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -29,11 +30,18 @@ public class TransactionService {
 
     @Transactional
     public Transaction initiateTransfer(TransferRequest request) {
-        log.info("Starting transfer initiation for ref: {}", request.getTransactionRef());
+        // Auto-generate transactionRef if not provided
+        String transactionRef = request.getTransactionRef();
+        if (transactionRef == null || transactionRef.isBlank()) {
+            transactionRef = "TXN-" + UUID.randomUUID().toString();
+            request.setTransactionRef(transactionRef);
+        }
+        
+        log.info("Starting transfer initiation for ref: {}", transactionRef);
 
-        Optional<Transaction> transaction = repository.findByTransactionRef(request.getTransactionRef());
+        Optional<Transaction> transaction = repository.findByTransactionRef(transactionRef);
         if (transaction.isPresent()) {
-            log.warn("Transaction already exists with ref: {}", request.getTransactionRef());
+            log.warn("Transaction already exists with ref: {}", transactionRef);
             return transaction.get();
         }
 
@@ -49,7 +57,7 @@ public class TransactionService {
 
         Transaction tx = new Transaction();
 
-        tx.setTransactionRef(request.getTransactionRef());
+        tx.setTransactionRef(transactionRef);
         tx.setFromAccountId(request.getFromAccountId());
         tx.setToAccountId(request.getToAccountId());
         tx.setAmount(request.getAmount());

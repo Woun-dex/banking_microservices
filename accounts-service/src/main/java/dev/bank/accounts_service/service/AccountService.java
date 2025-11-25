@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -69,6 +71,22 @@ public class AccountService {
                 acc.getCurrency(),
                 acc.getVersion()
         );
+    }
+
+    public List<AccountResponse> getAccountsByUserId(UUID userId) {
+        log.info("Getting accounts for user ID: {}", userId);
+        List<Account> accounts = accountRepository.findByUserId(userId);
+        log.info("Found {} accounts for user: {}", accounts.size(), userId);
+        
+        return accounts.stream()
+            .map(acc -> new AccountResponse(
+                acc.getAccountId(),
+                acc.getUserId(),
+                acc.getBalance(),
+                acc.getCurrency(),
+                acc.getVersion()
+            ))
+            .collect(Collectors.toList());
     }
 
     @Transactional

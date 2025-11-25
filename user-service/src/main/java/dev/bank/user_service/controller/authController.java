@@ -19,15 +19,12 @@ public class authController {
     
 
     private final JwtService jwtService;
+    private final UserService userService;
     
    
-    @PostMapping("/token")
-    public Map<String , String> token(@RequestBody Map<String, String> userDetails) {
-        String userId = userDetails.get("userId");
-        String role = userDetails.get("role");
-        String token = jwtService.generateToken(userId, role);
-        return Map.of("access_token", token , "token_type", "bearer");
-
+    @PostMapping("/login")
+    public Map<String, String> token(@RequestBody Map<String, String> userDetails) {
+        return  userService.loginRequest(userDetails.get("username"), userDetails.get("password"));
     }
       
     

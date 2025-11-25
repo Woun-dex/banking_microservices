@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,7 +19,7 @@ public class AccountController {
 
     private final AccountService service;
 
-    @PostMapping
+    @PostMapping({"", "/account"})
     public ResponseEntity<AccountResponse> createAccount(@RequestBody CreateAccountRequest req) {
         return ResponseEntity.ok(service.createAccount(req));
     }
@@ -26,6 +27,11 @@ public class AccountController {
     @GetMapping("/{id}")
     public ResponseEntity<AccountResponse> getAccount(@PathVariable UUID id) {
         return ResponseEntity.ok(service.getAccount(id));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<AccountResponse>> getAccountsByUserId(@PathVariable UUID userId) {
+        return ResponseEntity.ok(service.getAccountsByUserId(userId));
     }
 
     @PostMapping("/add")

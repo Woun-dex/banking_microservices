@@ -23,7 +23,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> {}) // Use default CORS configuration from CorsConfig bean
                 .authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers("/api/users/auth/token", "/api/users/user", "/user/token", "/user/user").permitAll()
+                                .requestMatchers("/api/users/auth/login", "/api/users/user", "/user/login", "/user/user").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
